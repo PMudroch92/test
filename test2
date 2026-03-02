@@ -1,0 +1,320 @@
+**<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opa Time — Sioux City, Iowa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1a3a5c; --gold: #c9972b; --cream: #fdf6ec;
+      --white: #ffffff; --text: #1a1a1a; --muted: #6b6b6b; --border: #e8e0d4;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--text); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--blue); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; height: 68px; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--gold); }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold); color: var(--blue) !important; padding: 10px 22px; border-radius: 4px; font-weight: 700 !important; }
+    .nav-cta:hover { background: #e0aa35 !important; }
+
+    .hero { margin-top: 68px; height: calc(100vh - 68px); min-height: 560px; background: var(--blue); display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(201,151,43,0.06) 0px, rgba(201,151,43,0.06) 1px, transparent 1px, transparent 40px); }
+    .hero-content { position: relative; z-index: 2; max-width: 640px; padding: 60px 80px; }
+    .hero-tag { display: inline-block; background: var(--gold); color: var(--blue); font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 24px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; color: var(--white); line-height: 1.05; margin-bottom: 24px; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 40px; max-width: 480px; }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: var(--blue); padding: 16px 36px; border: none; border-radius: 4px; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+    .btn-primary:hover { background: #e0aa35; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--white); padding: 16px 36px; border: 2px solid rgba(255,255,255,0.4); border-radius: 4px; font-size: 0.9rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .hero-visual { position: absolute; right: 0; top: 0; bottom: 0; width: 48%; display: flex; align-items: center; justify-content: center; }
+    .hero-plate { width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #2a5080, #0d2540); border: 3px solid rgba(201,151,43,0.3); display: flex; align-items: center; justify-content: center; font-size: 12rem; filter: drop-shadow(0 20px 60px rgba(0,0,0,0.4)); }
+
+    .marquee-wrap { background: var(--gold); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+    .marquee-inner { display: inline-block; animation: marquee 20s linear infinite; }
+    .marquee-inner span { font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin: 0 32px; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    section { padding: 100px 40px; }
+    .section-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--blue); line-height: 1.1; margin-bottom: 20px; }
+    .section-sub { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 500px; }
+
+    .about { background: var(--cream); display: flex; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 40px; }
+    .about-text { flex: 1; }
+    .about-stats { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 32px 24px; text-align: center; }
+    .stat-number { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 8px; }
+    .stat-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+    .about-divider { width: 50px; height: 3px; background: var(--gold); margin: 24px 0; }
+
+    .menu-section { max-width: 1200px; margin: 0 auto; }
+    .menu-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+    .menu-tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 48px; }
+    .tab-btn { background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px; padding: 12px 28px; font-size: 0.85rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); cursor: pointer; transition: color 0.2s, border-color 0.2s; }
+    .tab-btn.active { color: var(--blue); border-bottom-color: var(--gold); }
+    .tab-btn:hover:not(.active) { color: var(--blue); }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .menu-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+    .menu-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,58,92,0.12); }
+    .menu-card-img { height: 180px; background: var(--cream); display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+    .menu-card-body { padding: 20px; }
+    .menu-card-name { font-weight: 700; font-size: 1.05rem; color: var(--blue); margin-bottom: 6px; }
+    .menu-card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+    .menu-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .menu-card-price { font-weight: 800; font-size: 1.1rem; color: var(--gold); }
+    .menu-card-tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; background: var(--cream); color: var(--blue); padding: 4px 10px; border-radius: 20px; }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
+
+    .featured { background: var(--blue); color: var(--white); text-align: center; padding: 100px 40px; }
+    .featured .section-title { color: var(--white); }
+    .featured .section-sub { color: rgba(255,255,255,0.65); margin: 0 auto 60px; }
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 900px; margin: 0 auto 60px; }
+    .featured-item { background: rgba(255,255,255,0.05); padding: 48px 32px; transition: background 0.2s; }
+    .featured-item:hover { background: rgba(255,255,255,0.1); }
+    .featured-item .emoji { font-size: 3.5rem; margin-bottom: 20px; }
+    .featured-item h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; color: var(--white); }
+    .featured-item p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+    .location-section { display: flex; gap: 80px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 40px; }
+    .location-text { flex: 1; }
+    .location-map { flex: 1; background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; height: 360px; }
+    .location-map iframe { width: 100%; height: 100%; border: none; }
+    .info-row { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
+    .info-icon { width: 40px; height: 40px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .info-text strong { display: block; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .info-text span { font-size: 0.95rem; color: var(--text); }
+
+    .reviews-wrap { max-width: 1200px; margin: 0 auto; padding: 100px 40px; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
+    .review-card { border: 1px solid var(--border); border-radius: 10px; padding: 32px; }
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: 16px; letter-spacing: 2px; }
+    .review-text { font-size: 0.95rem; line-height: 1.7; color: var(--text); margin-bottom: 24px; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; font-size: 0.9rem; }
+    .reviewer-name { font-weight: 700; font-size: 0.9rem; color: var(--blue); }
+    .reviewer-source { font-size: 0.75rem; color: var(--muted); }
+
+    .cta-banner { background: var(--gold); text-align: center; padding: 80px 40px; }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--blue); margin-bottom: 16px; }
+    .cta-banner p { color: rgba(26,58,92,0.75); font-size: 1.05rem; margin-bottom: 36px; }
+    .btn-dark { background: var(--blue); color: var(--white); padding: 16px 40px; border: none; border-radius: 4px; font-size: 0.9rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .btn-dark:hover { background: #0d2540; }
+
+    footer { background: #0d2540; color: rgba(255,255,255,0.6); padding: 60px 80px 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+    .footer-col h4 { font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
+    .footer-col a { display: block; font-size: 0.9rem; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; display: flex; justify-content: space-between; font-size: 0.8rem; }
+
+    @media (max-width: 900px) {
+      .hero-visual { display: none; }
+      .hero-content { padding: 60px 24px; }
+      .about, .location-section { flex-direction: column; padding: 60px 24px; }
+      .featured-grid, .reviews-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Opa<span>Time</span></div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">Our Story</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="nav-cta">Order Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🏛 Sioux City's Greek Gem</div>
+    <h1>Taste the<br /><em>Mediterranean</em><br />Right Here.</h1>
+    <p>Authentic gyros, juicy burgers, loaded Phillys, and golden fries — all crafted with love at 2129 Hamilton Blvd.</p>
+    <div class="hero-btns">
+      <a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="btn-primary">Order Online</a>
+      <a href="#menu" class="btn-outline">View Menu</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-plate">🥙</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>Gyros</span><span>·</span><span>Burgers</span><span>·</span><span>Philly Cheesesteaks</span><span>·</span><span>Chicago Hot Dogs</span><span>·</span><span>Baklava Cheesecake</span><span>·</span><span>Crispy Fries</span><span>·</span>
+    <span>Gyros</span><span>·</span><span>Burgers</span><span>·</span><span>Philly Cheesesteaks</span><span>·</span><span>Chicago Hot Dogs</span><span>·</span><span>Baklava Cheesecake</span><span>·</span><span>Crispy Fries</span><span>·</span>
+    <span>Gyros</span><span>·</span><span>Burgers</span><span>·</span><span>Philly Cheesesteaks</span><span>·</span><span>Chicago Hot Dogs</span><span>·</span><span>Baklava Cheesecake</span><span>·</span><span>Crispy Fries</span><span>·</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div style="background:var(--cream)">
+  <div class="about" id="about">
+    <div class="about-text">
+      <div class="section-tag">Our Story</div>
+      <h2 class="section-title">Where Greek Flavors<br />Meet the Midwest</h2>
+      <div class="about-divider"></div>
+      <p class="section-sub" style="margin-bottom:20px">Opa Time is Sioux City's beloved spot for bold Mediterranean-inspired flavors at prices that keep you coming back. From our legendary gyros to our juicy burgers, every item is made with heart.</p>
+      <p class="section-sub">Located right on Hamilton Boulevard, we're proud to serve Sioux City with honest, delicious food and that signature "OPA!" energy every single day.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="stat-number">#1</div><div class="stat-label">Gyro in Sioux City</div></div>
+      <div class="stat-card"><div class="stat-number">100</div><div class="stat-label">Health Score</div></div>
+      <div class="stat-card"><div class="stat-number">$6.95</div><div class="stat-label">Meal with Fries & Drink</div></div>
+      <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">Days a Week Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<div id="menu" style="background:var(--white);padding:100px 40px">
+  <div class="menu-section">
+    <div class="menu-header">
+      <div><div class="section-tag">What We Serve</div><h2 class="section-title">The Menu</h2></div>
+      <a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="btn-primary">Order Online →</a>
+    </div>
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="switchTab('gyros',this)">Gyros</button>
+      <button class="tab-btn" onclick="switchTab('burgers',this)">Burgers</button>
+      <button class="tab-btn" onclick="switchTab('phillys',this)">Phillys</button>
+      <button class="tab-btn" onclick="switchTab('hotdogs',this)">Hot Dogs</button>
+      <button class="tab-btn" onclick="switchTab('sides',this)">Sides & Desserts</button>
+    </div>
+    <div id="gyros" class="menu-panel active">
+      <div class="menu-grid">
+        <div class="menu-card"><div class="menu-card-img">🥙</div><div class="menu-card-body"><div class="menu-card-name">Classic Gyro Meal</div><div class="menu-card-desc">Tender seasoned lamb & beef with tzatziki, tomato, and onion on warm pita. Comes with fries & drink.</div><div class="menu-card-footer"><span class="menu-card-price">$6.95</span><span class="menu-card-tag">Fan Fave</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🥗</div><div class="menu-card-body"><div class="menu-card-name">Gyro Salad</div><div class="menu-card-desc">Loaded with lamb, feta, fresh cucumber, tomato slices, and abundant tzatziki on the side.</div><div class="menu-card-footer"><span class="menu-card-price">$7.95</span><span class="menu-card-tag">Popular</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🍢</div><div class="menu-card-body"><div class="menu-card-name">Souvlaki Meal</div><div class="menu-card-desc">Grilled skewered meat seasoned Greek-style. Includes fries and your choice of drink.</div><div class="menu-card-footer"><span class="menu-card-price">$6.95</span><span class="menu-card-tag">Greek Classic</span></div></div></div>
+      </div>
+    </div>
+    <div id="burgers" class="menu-panel">
+      <div class="menu-grid">
+        <div class="menu-card"><div class="menu-card-img">🍔</div><div class="menu-card-body"><div class="menu-card-name">Big Burger Meal</div><div class="menu-card-desc">Our signature smashed patty burger. Add bacon (+$0.75) or extra cheese (+$0.35). With fries & drink.</div><div class="menu-card-footer"><span class="menu-card-price">$6.95</span><span class="menu-card-tag">Classic</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🥓</div><div class="menu-card-body"><div class="menu-card-name">Bacon Cheeseburger</div><div class="menu-card-desc">Crispy bacon, melted cheese, and all the fixings on a perfectly toasted bun.</div><div class="menu-card-footer"><span class="menu-card-price">$7.45</span><span class="menu-card-tag">Must Try</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🫕</div><div class="menu-card-body"><div class="menu-card-name">Patty Melt Meal</div><div class="menu-card-desc">Beef patty with caramelized onions and melted swiss on grilled rye bread.</div><div class="menu-card-footer"><span class="menu-card-price">$6.99</span><span class="menu-card-tag">Comfort Food</span></div></div></div>
+      </div>
+    </div>
+    <div id="phillys" class="menu-panel">
+      <div class="menu-grid">
+        <div class="menu-card"><div class="menu-card-img">🥩</div><div class="menu-card-body"><div class="menu-card-name">Philly Cheese Steak Meal</div><div class="menu-card-desc">Thinly sliced beef, sautéed peppers & onions, melted cheese on a hoagie roll. With fries & drink.</div><div class="menu-card-footer"><span class="menu-card-price">$7.95</span><span class="menu-card-tag">Bestseller</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🍗</div><div class="menu-card-body"><div class="menu-card-name">Philly Chicken Meal</div><div class="menu-card-desc">Grilled chicken, peppers, onions, and cheese all packed into a toasty hoagie roll.</div><div class="menu-card-footer"><span class="menu-card-price">$7.95</span><span class="menu-card-tag">Popular</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🥪</div><div class="menu-card-body"><div class="menu-card-name">Philly Corn Beef Meal</div><div class="menu-card-desc">Tender corned beef with all the classic Philly toppings on a warm hoagie roll.</div><div class="menu-card-footer"><span class="menu-card-price">$7.95</span><span class="menu-card-tag">Unique</span></div></div></div>
+      </div>
+    </div>
+    <div id="hotdogs" class="menu-panel">
+      <div class="menu-grid">
+        <div class="menu-card"><div class="menu-card-img">🌭</div><div class="menu-card-body"><div class="menu-card-name">Chicago Hot Dog Meal</div><div class="menu-card-desc">A true Chicago-style dog with all seven toppings on a poppy seed bun. Never ketchup.</div><div class="menu-card-footer"><span class="menu-card-price">$5.95</span><span class="menu-card-tag">City Classic</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🍲</div><div class="menu-card-body"><div class="menu-card-name">2 Chili Dogs Meal</div><div class="menu-card-desc">Two hot dogs smothered in our hearty chili. A satisfying, loaded meal with fries & drink.</div><div class="menu-card-footer"><span class="menu-card-price">$5.95</span><span class="menu-card-tag">Value Pick</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🍤</div><div class="menu-card-body"><div class="menu-card-name">Shrimp Meal</div><div class="menu-card-desc">Golden crispy shrimp with your choice of sauce, plus fries and a drink to round it out.</div><div class="menu-card-footer"><span class="menu-card-price">$7.95</span><span class="menu-card-tag">Seafood</span></div></div></div>
+      </div>
+    </div>
+    <div id="sides" class="menu-panel">
+      <div class="menu-grid">
+        <div class="menu-card"><div class="menu-card-img">🍟</div><div class="menu-card-body"><div class="menu-card-name">Seasoned Fries</div><div class="menu-card-desc">Crispy, golden, perfectly seasoned. Ask for them extra crispy — you won't regret it.</div><div class="menu-card-footer"><span class="menu-card-price">$3.49</span><span class="menu-card-tag">Side</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🧀</div><div class="menu-card-body"><div class="menu-card-name">Cheese Curds with Ranch</div><div class="menu-card-desc">Golden fried cheese curds served with house ranch. A crowd-pleasing shareable appetizer.</div><div class="menu-card-footer"><span class="menu-card-price">$5.49</span><span class="menu-card-tag">Appetizer</span></div></div></div>
+        <div class="menu-card"><div class="menu-card-img">🍰</div><div class="menu-card-body"><div class="menu-card-name">Baklava Cheesecake</div><div class="menu-card-desc">A dreamy fusion of classic cheesecake and flaky honey-nut baklava. Pure dessert magic.</div><div class="menu-card-footer"><span class="menu-card-price">$5.99</span><span class="menu-card-tag">Must Try</span></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROMISE -->
+<section class="featured">
+  <div class="section-tag">Why We're Different</div>
+  <h2 class="section-title">The Opa Time Promise</h2>
+  <p class="section-sub">Every visit should feel like a celebration. That's the Opa Time way.</p>
+  <div class="featured-grid">
+    <div class="featured-item"><div class="emoji">🫶</div><h3>Made with Heart</h3><p>Every gyro, every burger, every fry is made with care and seasoned with that Greek spirit.</p></div>
+    <div class="featured-item"><div class="emoji">💰</div><h3>Unbeatable Value</h3><p>Full meals with fries and a drink starting at $5.95. Great food shouldn't cost a fortune.</p></div>
+    <div class="featured-item"><div class="emoji">⭐</div><h3>Perfect Score</h3><p>A 100/100 health department score. We take pride in cleanliness as much as flavor.</p></div>
+  </div>
+  <a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="btn-primary">Order Now</a>
+</section>
+
+<!-- LOCATION -->
+<div style="background:var(--cream)">
+  <div class="location-section" id="location">
+    <div class="location-text">
+      <div class="section-tag">Find Us</div>
+      <h2 class="section-title">Come Visit Us<br />in Sioux City</h2>
+      <div class="about-divider"></div>
+      <div class="info-row"><div class="info-icon">📍</div><div class="info-text"><strong>Address</strong><span>2129 Hamilton Blvd, Sioux City, IA 51104</span></div></div>
+      <div class="info-row"><div class="info-icon">🕐</div><div class="info-text"><strong>Hours</strong><span>Monday–Saturday: 11:00 AM – 10:00 PM</span></div></div>
+      <div class="info-row"><div class="info-icon">📞</div><div class="info-text"><strong>Phone</strong><span>(712) 258-3021</span></div></div>
+      <div class="info-row"><div class="info-icon">🚗</div><div class="info-text"><strong>Delivery & Pickup</strong><span>Available via DoorDash, Grubhub & online ordering</span></div></div>
+      <div style="margin-top:36px;display:flex;gap:12px;flex-wrap:wrap">
+        <a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="btn-primary">Order Online</a>
+        <a href="https://maps.google.com/?q=2129+Hamilton+Blvd+Sioux+City+IA" target="_blank" class="btn-outline" style="color:var(--blue);border-color:var(--blue)">Get Directions</a>
+      </div>
+    </div>
+    <div class="location-map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2961.5!2d-96.405!3d42.515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87879f1234567890%3A0x1!2s2129+Hamilton+Blvd%2C+Sioux+City%2C+IA+51104!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div id="reviews" style="background:var(--white)">
+  <div class="reviews-wrap">
+    <div class="section-tag">What People Say</div>
+    <h2 class="section-title">Real Customers, Real Love</h2>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="stars">★★★★★</div><p class="review-text">"I am speechless... BEST gyro ever. Hands down. It arrived hot, fresh and loaded. The meat was very tender and flavorful. The sauce was incredible. I want another order right now!"</p><div class="reviewer"><div class="reviewer-avatar">JM</div><div><div class="reviewer-name">James M.</div><div class="reviewer-source">DoorDash Review</div></div></div></div>
+      <div class="review-card"><div class="stars">★★★★★</div><p class="review-text">"The gyro salad is sooo good — loaded with delicious lamb and feta. The cucumber and tomato are always fresh and the tzatziki is delicious. This is NOT fast food!"</p><div class="reviewer"><div class="reviewer-avatar">SR</div><div><div class="reviewer-name">Sarah R.</div><div class="reviewer-source">DoorDash Review</div></div></div></div>
+      <div class="review-card"><div class="stars">★★★★★</div><p class="review-text">"Opa Time is amazing — always full of flavor. The price you pay is fantastic for the amount you get. I always order my fries extra crispy. The seasonings are perfect every time!"</p><div class="reviewer"><div class="reviewer-avatar">TK</div><div><div class="reviewer-name">Tyler K.</div><div class="reviewer-source">DoorDash Review</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-banner">
+  <h2>Ready to Say OPA?</h2>
+  <p>Order online for pickup or delivery — or come see us at 2129 Hamilton Blvd.</p>
+  <a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank" class="btn-dark">Order Now</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="nav-logo" style="margin-bottom:16px;display:block">Opa<span style="color:rgba(255,255,255,0.5)">Time</span></div>
+      <p style="font-size:0.9rem;line-height:1.7">Sioux City's home for Mediterranean-inspired flavors, classic American comfort food, and a whole lot of heart.</p>
+    </div>
+    <div class="footer-col"><h4>Menu</h4><a href="#">Gyros</a><a href="#">Burgers</a><a href="#">Phillys</a><a href="#">Hot Dogs</a><a href="#">Sides & Desserts</a></div>
+    <div class="footer-col"><h4>Order</h4><a href="https://order.online/store/opa-time-sioux-city-29649090" target="_blank">Order Online</a><a href="https://www.doordash.com" target="_blank">DoorDash</a><a href="https://www.grubhub.com" target="_blank">Grubhub</a></div>
+    <div class="footer-col"><h4>Visit</h4><a href="#">2129 Hamilton Blvd</a><a href="#">Sioux City, IA 51104</a><a href="tel:7122583021">(712) 258-3021</a><a href="#">Mon–Sat: 11am–10pm</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Opa Time. Sioux City, Iowa.</span><span>Made with ❤️ in the Midwest</span></div>
+</footer>
+
+<script>
+  function switchTab(panel, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(panel).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>**
